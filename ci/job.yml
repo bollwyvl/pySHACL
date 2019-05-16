@@ -35,6 +35,10 @@ jobs:
       rm $(which owlrl.py) || echo "no cleaning needed"
     displayName: clean up owlrl.py
 
+  - bash: |
+      pyshacl --help
+    displayName: cli
+
   - script: |
       cd test
       python -m pytest --cov=pyshacl --cov-report=xml
