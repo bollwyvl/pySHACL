@@ -22,7 +22,7 @@ jobs:
 
   - script: |
       python -m pip install --upgrade pip
-      python -m pip install -r requirements.txt -r requirements-dev.txt pytest-cov pytest-azurepipelines
+      python -m pip install pytest-cov pytest-azurepipelines
     displayName: dependencies
 
   - bash: |
