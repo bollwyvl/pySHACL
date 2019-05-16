@@ -25,17 +25,9 @@ jobs:
       pip install -r requirements.txt -r requirements-dev.txt pytest-cov pytest-azurepipelines .
     displayName: dependencies
 
-  - ${{ if eq(parameters.name, 'Windows') }}:
-    - script: |
-        where owlrl.py > delete-me
-        set /p OWLRLPY=<delete-me
-        del %OWLRLPY% delete-me
-      displayName: clean up owlrl.py
-
-  - ${{ if not(eq(parameters.name, 'Windows')) }}:
-    - script: |
-        rm $(which owlrl.py)
-      displayName: clean up owlrl.py
+  - bash: |
+      rm $(which owlrl.py)
+    displayName: clean up owlrl.py
 
   - script: |
       pytest --cov=pyshacl --cov-report=xml
