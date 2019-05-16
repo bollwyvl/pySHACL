@@ -22,18 +22,18 @@ jobs:
 
   - script: |
       python -m pip install --upgrade pip
-      python -m pip install pytest-cov pytest-azurepipelines
+      python -m pip install pytest-cov pytest-azurepipelines wheel
     displayName: dependencies
-
-  - bash: |
-      rm $(which owlrl.py) || echo "no cleaning needed"
-    displayName: clean up owlrl.py
 
   - script: |
       python setup.py bdist_wheel
       cd dist
       python -m pip install *.whl
     displayName: install
+
+  - bash: |
+      rm $(which owlrl.py) || echo "no cleaning needed"
+    displayName: clean up owlrl.py
 
   - script: |
       cd test
