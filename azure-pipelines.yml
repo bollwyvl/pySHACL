@@ -6,7 +6,7 @@ jobs:
   - job: Linux
     pool:
       vmImage: ubuntu-latest
-    strategy: &strategy
+    strategy:
       matrix:
         Python35:
           python.version: '3.5'
@@ -15,7 +15,7 @@ jobs:
         Python37:
           python.version: '3.7'
 
-    steps:  &steps
+    steps:
     - task: UsePythonVersion@0
       inputs:
         versionSpec: '$(python.version)'
@@ -23,7 +23,7 @@ jobs:
 
     - script: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt -r requirements-dev.txt pytest-cov
+        pip install -r requirements.txt -r requirements-dev.txt pytest-cov .
       displayName: dependencies
 
     - script: |
@@ -34,11 +34,53 @@ jobs:
   - job: MacOS
     pool:
       vmImage: macos-10.13
-    strategy: *strategy
-    steps: *steps
+    strategy:
+      matrix:
+        Python35:
+          python.version: '3.5'
+        Python36:
+          python.version: '3.6'
+        Python37:
+          python.version: '3.7'
+    steps:
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: '$(python.version)'
+      displayName: 'Use Python $(python.version)'
+
+    - script: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt -r requirements-dev.txt pytest-cov .
+      displayName: dependencies
+
+    - script: |
+        pip install pytest pytest-azurepipelines
+        pytest
+      displayName: pytest
 
   - job: Windows
     pool:
       vmImage: vs2017-win2016
-    strategy: *strategy
-    steps: *steps
+    strategy:
+      matrix:
+        Python35:
+          python.version: '3.5'
+        Python36:
+          python.version: '3.6'
+        Python37:
+          python.version: '3.7'
+    steps:
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: '$(python.version)'
+      displayName: 'Use Python $(python.version)'
+
+    - script: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt -r requirements-dev.txt pytest-cov .
+      displayName: dependencies
+
+    - script: |
+        pip install pytest pytest-azurepipelines
+        pytest
+      displayName: pytest
