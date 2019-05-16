@@ -28,7 +28,7 @@ jobs:
 
     - script: |
         pip install pytest pytest-azurepipelines
-        pytest
+        pytest --cov=pyshacl --cov-report=xml
       displayName: pytest
 
   - job: MacOS
@@ -55,7 +55,7 @@ jobs:
 
     - script: |
         pip install pytest pytest-azurepipelines
-        pytest
+        pytest --cov=pyshacl --cov-report=xml
       displayName: pytest
 
   - job: Windows
@@ -82,5 +82,5 @@ jobs:
 
     - script: |
         pip install pytest pytest-azurepipelines
-        pytest
+        pytest --cov=pyshacl --cov-report=xml
       displayName: pytest
