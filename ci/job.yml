@@ -18,17 +18,24 @@ jobs:
   - task: UsePythonVersion@0
     inputs:
       versionSpec: '$(python.version)'
-    displayName: 'Use Python $(python.version)'
+    displayName: 'python $(python.version)'
 
   - script: |
       python -m pip install --upgrade pip
-      pip install -r requirements.txt -r requirements-dev.txt pytest-cov pytest-azurepipelines .
+      python -m pip install -r requirements.txt -r requirements-dev.txt pytest-cov pytest-azurepipelines
     displayName: dependencies
 
   - bash: |
-      rm $(which owlrl.py)
+      rm $(which owlrl.py) || echo "no cleaning needed"
     displayName: clean up owlrl.py
 
   - script: |
-      pytest --cov=pyshacl --cov-report=xml
-    displayName: pytest
+      python setup.py bdist_wheel
+      cd dist
+      python -m pip install *.whl
+    displayName: install
+
+  - script: |
+      cd test
+      python -m pytest --cov=pyshacl --cov-report=xml
+    displayName: test
